@@ -1,13 +1,9 @@
-;;; VLisp project file [V2.0] AITTool saved to:[c:\Users\and08jors\Documents\AUTOCADe\lisp\AIT ACAD] at:[11/8/2022]
+;;; VLisp project file [V2.0] AITTool saved to:[c:\Users\and08jors\Documents\AUTOCADe\lisp\AIT ACAD\LISP] at:[11/9/2022]
 (VLISP-PROJECT-LIST 
   :NAME
   AITTool
   :OWN-LIST
-  ("BFindV2-0" 
-    "C:/Users/and08jors/Documents/AUTOCADe/lisp/AIT ACAD/Main"
-    "StripMtext v5-0b"
-    "MultiFileTool"
-  )
+  ("Main" "StripMtext v5-0b")
   :FAS-DIRECTORY
   nil
   :TMP-DIRECTORY
