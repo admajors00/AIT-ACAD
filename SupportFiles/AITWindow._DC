@@ -1,0 +1,27 @@
+hello : dialog
+{
+  label = "Sample Dialog Box";
+  : text {
+    label = "Hello, world.";
+  }
+ : button {
+	label = "Dont Click ME";
+	key = "button1";
+	width = 10;
+	fixed_width = false;
+ }
+ : button {
+	label = "TriCircle";
+	key = "TriCircle";
+	width = 10;
+	fixed_width = false;
+ }
+ : button {
+	label = "Exit";
+	is_cancel = true;
+	key = "Exit";
+	width = 10;
+	fixed_width = false;
+ }
+}
+
