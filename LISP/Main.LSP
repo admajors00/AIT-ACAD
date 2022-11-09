@@ -1,5 +1,6 @@
 (vl-load-com)
 
+;this is a test
 
 (defun C:AITTool (/ dcl_id number points)
   (setq number 1)
