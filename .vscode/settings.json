@@ -1,4 +1,4 @@
 {
     "github.gitProtocol": "ssh",
-    "github.gitAuthentication": false
+    "github.gitAuthentication": true
 }
