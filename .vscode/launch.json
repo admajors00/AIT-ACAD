@@ -1,0 +1,22 @@
+{
+    "configurations":
+    [
+        {
+            "type": "launchlisp",
+            "request": "launch",
+            "name": "Autolisp Debug: Launch",
+            "attributes": {
+                "path": "C:\\Program Files\\Autodesk\\AutoCAD 2021\\acad.exe",
+                "params": ""
+            }
+        },
+        {
+            "type": "attachlisp",
+            "request": "attach",
+            "name": "Autolisp Debug: Attach",
+            "attributes": {
+                "process": "acad"
+            }
+        }
+    ]
+}
