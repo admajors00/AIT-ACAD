@@ -11,6 +11,12 @@ hello : dialog
 	fixed_width = false;
  }
  : button {
+	label = "Strip MText";
+	key = "STRIP_MTEXT_BUTTON";
+	width = 10;
+	fixed_width = false;
+ }
+ : button {
 	label = "TriCircle";
 	key = "TriCircle";
 	width = 10;
