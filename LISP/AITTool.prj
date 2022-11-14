@@ -3,7 +3,7 @@
   :NAME
   AITTool
   :OWN-LIST
-  ("Main" "StripMtext v5-0b" "GUI-CALLBACKS")
+  ("Main" "StripMtext v5-0b" "GUI-CALLBACKS" "BFindV2-0" "troy")
   :FAS-DIRECTORY
   nil
   :TMP-DIRECTORY

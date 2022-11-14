@@ -1,7 +1,8 @@
 (defun AIT:STRIP_MTEXT () 
-  (unload_dialog dcl_id)
-  (c:smt)
-  (load_dialog dcl_id)
+  
+  
+  ;(princ)
+
 )
 
 (defun AIT:checkEntities () 
@@ -15,6 +16,7 @@
 )
                       
 (defun AIT:BFind()
+  (princ)
 )
 
 (defun AIT:callback () 
@@ -109,3 +111,4 @@
   )
   (nth 0 points)
 )
+

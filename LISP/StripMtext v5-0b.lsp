@@ -331,7 +331,7 @@
 ;;;;  smt-acad
 ;;;;  smt-doc
 ;;;;  smt-blocks
-;;;;  smt-layers
+;;;;  smt-layer
 ;;;;
 (vl-load-com)
 (setq *smt-smtver* "5.0b")
@@ -406,7 +406,7 @@
   (if 
     (and 
       (setq ss (ssget  ;_ get selection
-                      ":L"
+                      ":L" 
                       ssfilter
                )
       )
