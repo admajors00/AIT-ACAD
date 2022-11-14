@@ -1,36 +1,12 @@
 (vl-load-com)
-
+(command "OPENDCL")
 ;this is a test
 
 (defun C:AITTool (/ dcl_id number points) 
-  (setq number 1)
-  (setq dcl_id (load_dialog "AITWindow.dcl")) ; Load the DCL file.
-
-  ; (action_tile "Exit" "(done_dialog)")
-  (setq points (list (list 2.0 2.0 0.0)  ;p3
-                     (list 1.0 2.0 0.0) ;p2
-                     (list 2.0 1.0 0.0) ;p1
-               )
-  )
-  (if (not (new_dialog "hello" dcl_id))  ; Initialize the dialog.
-    (exit) ; Exit if this does not work.
-  )
-
-
-  (action_tile 
-    "button1"
-    "(AIT:checkEntities)"
-  )
-  (action_tile 
-    "TriCircle"
-    "(AIT:triCircle 100)"
-  )
-  (action_tile 
-    "BFind"
-    "(AIT:BFind)"
-  )
-  (start_dialog) ; Display the dialog box.
-  (unload_dialog dcl_id) ; Unload the DCL file.
+  (dcl_Project_Load "AIT-GUI" T)
+; call the method to show the Hello World dialog box example
+  (dcl_Form_Show ACADE_TOOL_FORM)
+(princ)
 )
 
 (defun AIT:checkEntities () 
