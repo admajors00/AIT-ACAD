@@ -1,4 +1,6 @@
 (setq GUI_CALLBACK_IFDEF 1)
+
+
 (defun AIT:checkEntities () 
   (setq entl (entnext))
   (setq ent entl)

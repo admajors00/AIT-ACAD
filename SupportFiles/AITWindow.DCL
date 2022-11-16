@@ -2,50 +2,41 @@
 ACADE_TOOL : dialog
 {
     label = "AIT ACADE TOOL";
-    : text
-    {
-        label = "Hello, world.";
+    :row{
+    : boxed_column {
+      label = "Select Folder";
+    
+    : edit_box { 
+      key = "path_editBox"; 
+      label = "Path: ";
+     }
+    
+     :row{
+            :button
+            {
+                	label = "Browse";
+                	key = "browse_button";
+                	width = 10;
+                	fixed_width = true;
+            }
+            :button
+            {
+                	label = "Enter";
+                	key = "path_enter_button";
+                	width = 10;
+                	fixed_width = true;
+            }
+     }
+    }
     }
     :row
     {
         : boxed_column
         {
             label = "Pick Function";
-            : button
-            {
-                	label = "Dont Click ME";
-                	key = "button1";
-                	width = 10;
-                	fixed_width = true;
-            }
-            : button
-            {
-                	label = "Strip MText";
-                	key = "STRIP_MTEXT_BUTTON";
-                	width = 10;
-                	fixed_width = true;
-            }
-            : button
-            {
-                	label = "TriCircle";
-                	key = "TriCircle";
-                	width = 10;
-                	fixed_width = true;
-            }
-            : button
-            {
-                	label = "BFind";
-                	key = "BFind";
-                	width = 10;
-                	fixed_width = true;
-            }
-            : button
-            {
-                	label = "Play troy";
-                	key = "troy_button";
-                	width = 10;
-                	fixed_width = true;
-            }
+            : popup_list { 
+                key = "tool_popupList";
+             }
         }
         : boxed_column
         {
@@ -85,4 +76,5 @@ ACADE_TOOL : dialog
             	fixed_width = true;
         }
     }
+    : errtile {  }
 }

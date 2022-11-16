@@ -1,22 +1,15 @@
+(load "GUI-CALLBACKS.lsp")
 
 
-;this is a test
-
-(defun C:AITTool (/ dcl_id number points what_next cnt P1 P2 P3) 
+(defun C:AITTool (/ dcl_id number points what_next cnt P1 P2 P3 tools_folder_path tools_file_names DirectoryDialog_result) 
   (vl-load-com)
-  (if (/= (boundp GUI_CALLBACK_IFDEF) t)
-      (load "GUI-CALLBACKS.lsp")
-    )
-  )
+  
+ 
+
+  
   
   (setq dcl_id (load_dialog "AITWindow.dcl")) ; Load the DCL file.
   (setq number 1)
-  ; (action_tile "Exit" "(done_dialog)")
- ;|  (setq points (list (list 2.0 2.0 0.0)  ;p3
-                     (list 1.0 2.0 0.0) ;p2
-                     (list 2.0 1.0 0.0) ;p1
-               )
-  ) |;
   (setq what_next 2)
   (setq cnt 1)
   (while (>= what_next 2) 
@@ -29,8 +22,14 @@
     (action_tile "TriCircle" "(done_dialog 5)")
     (action_tile "BFind" "(done_dialog 6)")
     (action_tile "troy_button" "(done_dialog 7)")
-    (action_tile "button1" "(done_dialog 8)")
-
+    (action_tile "button1" "(set_tile \"error\" \"hello\")")
+    
+    
+    (action_tile "browse_button" "(setq DirectoryDialog_result (LM:DirectoryDialog \"Choose Directory\" nil 0))
+                                  (if (/= nil DirectoryDialog_result) 
+                                    (set_tile \"path_editBox\" DirectoryDialog_result))")
+    (action_tile "path_enter_button" "(AIT:set_tool_folder_path)")
+    
     (setq what_next (start_dialog))
 
     (cond 
@@ -62,10 +61,90 @@
 
   ;(start_dialog) ; Display the dialog box.
   (unload_dialog dcl_id) ; Unload the DCL file.
+  ;(princ "Files: ")
+ ; (princ(vl-directory-files tools_folder_path))
 )
 
-;; Add Support File Search Paths  -  Lee Mac
-;; Adds a list of Support File Search Paths, excluding duplicates and invalid paths.
-;; lst - [lst] list of paths to add, e.g. '("C:\\Folder1" "C:\\Folder2" ... )
-;; Returns: [str] "ACAD" Environment String following modification
+(defun AIT:set_tool_folder_path(/)
+  (setq tools_folder_path (get_tile "path_editBox"))
+  (if (/= nil (vl-string-search "ExternalTools" tools_folder_path))
+    (setq tools_file_names (vl-directory-files tools_folder_path nil 1))
+    (progn (set_tile "error" "Invalid Path") (exit))
+  )
+  ;(princ tools_file_names )
+   (start_list "tool_popupList" 2)
+  (mapcar 'add_list tools_file_names)
+  (end_list) 
+  
+  
+
+)
+
+;;-------------------=={ Directory Dialog }==-----------------;;
+;;                                                            ;;
+;;  Displays a dialog prompting the user to select a folder   ;;
+;;------------------------------------------------------------;;
+;;  Author: Lee Mac, Copyright © 2011 - www.lee-mac.com       ;;
+;;------------------------------------------------------------;;
+;;  Arguments:                                                ;;
+;;  msg  - message to display at top of dialog                ;;
+;;  dir  - root directory (or nil)                            ;;
+;;  flag - bit coded flag specifying dialog display settings  ;;
+;;------------------------------------------------------------;;
+;;  Returns:  Selected folder filepath, else nil              ;;
+;;------------------------------------------------------------;;
+
+(defun LM:DirectoryDialog ( msg dir flag / Shell Fold Self Path )
+  (vl-catch-all-apply
+    (function
+      (lambda ( / ac HWND )
+        (if
+          (setq Shell (vla-getInterfaceObject (setq ac (vlax-get-acad-object)) "Shell.Application")
+                HWND  (vl-catch-all-apply 'vla-get-HWND (list ac))
+                Fold  (vlax-invoke-method Shell 'BrowseForFolder (if (vl-catch-all-error-p HWND) 0 HWND) msg flag dir)
+          )
+          (setq Self (vlax-get-property Fold 'Self)
+                Path (vlax-get-property Self 'Path)
+                Path (vl-string-right-trim "\\" (vl-string-translate "/" "\\" Path))
+          )
+        )
+      )
+    )
+  )
+  (if Self  (vlax-release-object  Self))
+  (if Fold  (vlax-release-object  Fold))
+  (if Shell (vlax-release-object Shell))
+  Path
+)
+
+
+;| Symbol 	 Type    	Description
+msg 	 String 	Message to display to the top of the dialog (may be an empty string)
+dir 	 String 	(Optional) Root Directory, user cannot navigate above this level
+flag 	 Integer 	Bit flags controlling the behaviour of the dialog interface (detailed below)
+
+Returns: Selected Directory, else nil if user presses Cancel
+
+
+
+Flag Bit Values
+Bit 	Result
+0 	Standard behaviour (Default)
+1 	Only file system folders can be selected. If this bit is set, the OK button is disabled if the user selects a folder that doesn't belong to the file system.
+2 	The user is prohibited from browsing below the domain within a network
+4 	Room for status text is provided under the dialog box
+8 	Returns file system ancestors only. An ancestor is a subfolder that is beneath the root folder. If the user selects an ancestor of the root folder that is not part of the file system, the OK button is grayed.
+16 	Shows an edit box in the dialog box for the user to type the name of an item.
+32 	Validate the name typed in the edit box.
+64 	Enable drag-and-drop capability within the dialog box, reordering, shortcut menus, new folders, delete, and other shortcut menu commands.
+128 	The browse dialog box can display URLs.
+256 	When combined with flag 64, adds a usage hint to the dialog box, in place of the edit box.
+512 	Suppresses display of the 'New Folder' button
+1024 	When the selected item is a shortcut, return the PIDL of the shortcut itself rather than its target.
+4096 	Enables the user to browse the network branch for computer names. If the user selects anything other than a computer, the OK button is grayed.
+8192 	Enables the user to browse the network branch for printer names. If the user selects anything other than a printer, the OK button is grayed.
+16384 	Allows browsing for everything: the browse dialog box displays files as well as folders.
+32768 	If combined with flag 64, the browse dialog box can display shareable resources on remote systems.
+65536 	Windows7 & later: Allow folder junctions such as a library or a compressed file with a .zip file name extension to be browsed. |;
+
 

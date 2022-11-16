@@ -3,7 +3,9 @@
   :NAME
   AITTool
   :OWN-LIST
-  ("Main" "StripMtext v5-0b" "GUI-CALLBACKS" "BFindV2-0" "troy" "formatDCL")
+  ("Main" 
+    "c:/Users/and08jors/Documents/AUTOCADe/lisp/AIT ACAD/SupportFiles/GUI-CALLBACKS"
+  )
   :FAS-DIRECTORY
   nil
   :TMP-DIRECTORY
