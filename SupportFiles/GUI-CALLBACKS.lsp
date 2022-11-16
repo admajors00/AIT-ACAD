@@ -1,10 +1,4 @@
-(defun AIT:STRIP_MTEXT () 
-  
-  
-  ;(princ)
-
-)
-
+(setq GUI_CALLBACK_IFDEF 1)
 (defun AIT:checkEntities () 
   (setq entl (entnext))
   (setq ent entl)
@@ -41,13 +35,8 @@
   (princ "get got ")
   (AIT:crash)
 )
-(defun AIT:triCircle (iterations / x1 y1 x2 y2 x3 y3 A B C D Yc Xc R P1 P2 P3) 
-  ;;;  (done_dialog 1)
-  ;;;  (setq P1 (getPoint "\nStart Point : "))
-  ;;;  (setq P2 (getpoint "\nSecond Point: "))
-  ;;;  (setq P3 (getpoint "\nThird Point : "))
-  ;;;  (start_dialog)
-  ;;;  (setq points (list P1 P2 P3))
+(defun AIT:triCircle (iterations p1 p2 p3 / points x1 y1 x2 y2 x3 y3 A B C D Yc Xc R)
+  (setq points (list p1 p2 p3))
   (entmakex 
     (list (cons 0 "LINE") 
           (cons 10 (nth 2 points))
@@ -106,7 +95,7 @@
       )
 
 
-      (AIT:triCircle iterations)
+      (AIT:triCircle iterations   (nth 0 points) (nth 1 points) (nth 2 points) )
     )
   )
   (nth 0 points)
