@@ -1,13 +1,18 @@
-(load "GUI-CALLBACKS.lsp")
+(vl-load-com)
+;(if (/= ifdef_gui_callbacks nil) 
+  (load "GUI-CALLBACKS.lsp")
+;)
+;(if (/= ifdef_settings_functions nil) 
+  (load "SettingsFunctions.lsp")
+;)
 
 
-(defun C:AITTool (/ dcl_id number points what_next cnt P1 P2 P3 tools_folder_path tools_file_names DirectoryDialog_result) 
-  (vl-load-com)
-  
- 
 
-  
-  
+(defun C:AITTool (/ dcl_id number what_next cnt P1 P2 P3 project_folder_path 
+                  tools_folder_path tools_file_names DirectoryDialog_result 
+                  settings_path settings support_folder_path
+                 ) 
+
   (setq dcl_id (load_dialog "AITWindow.dcl")) ; Load the DCL file.
   (setq number 1)
   (setq what_next 2)
@@ -16,25 +21,19 @@
 
     (if (not (new_dialog "ACADE_TOOL" dcl_id))  ; Initialize the dialog.
       (exit) ; Exit if this does not work.
-    )
+    )   
+    
+    (action_tile "run_function_Button" "(AIT:run_Button_cb)")
+    (action_tile "open_settings_Button" "(SETTINGS:dialog settings)")
+    (action_tile "browse_Button" "(AIT:browse_Button_cb)" )
+    (action_tile "path_enter_Button" "(AIT:path_enter_Button_cb)")
 
-    (action_tile "STRIP_MTEXT_BUTTON" "(done_dialog 4)")
-    (action_tile "TriCircle" "(done_dialog 5)")
-    (action_tile "BFind" "(done_dialog 6)")
-    (action_tile "troy_button" "(done_dialog 7)")
-    (action_tile "button1" "(set_tile \"error\" \"hello\")")
-    
-    
-    (action_tile "browse_button" "(setq DirectoryDialog_result (LM:DirectoryDialog \"Choose Directory\" nil 0))
-                                  (if (/= nil DirectoryDialog_result) 
-                                    (set_tile \"path_editBox\" DirectoryDialog_result))")
-    (action_tile "path_enter_button" "(AIT:set_tool_folder_path)")
-    
     (setq what_next (start_dialog))
 
     (cond 
       ((= what_next 4) ; Prompt user to
-       (c:SMT) ; pick pt.
+       (c:SMT)
+       ; pick pt.
       )
       ((= what_next 5) ; Prompt user to
        (setq P1 (getPoint "\nStart Point : "))
@@ -49,7 +48,7 @@
        (c:Troy) ; pick pt.
       )
       ((= what_next 8) ; Prompt user to
-       (AIT:callback) ; pick pt.
+       (SETTINGS:dialog settings)
       )
 
       ((= what_next 0)
@@ -57,28 +56,16 @@
       )
     )
   )
-
-
-  ;(start_dialog) ; Display the dialog box.
   (unload_dialog dcl_id) ; Unload the DCL file.
-  ;(princ "Files: ")
- ; (princ(vl-directory-files tools_folder_path))
+
+
+  (princ)
 )
 
-(defun AIT:set_tool_folder_path(/)
-  (setq tools_folder_path (get_tile "path_editBox"))
-  (if (/= nil (vl-string-search "ExternalTools" tools_folder_path))
-    (setq tools_file_names (vl-directory-files tools_folder_path nil 1))
-    (progn (set_tile "error" "Invalid Path") (exit))
-  )
-  ;(princ tools_file_names )
-   (start_list "tool_popupList" 2)
-  (mapcar 'add_list tools_file_names)
-  (end_list) 
-  
-  
 
-)
+
+
+
 
 ;;-------------------=={ Directory Dialog }==-----------------;;
 ;;                                                            ;;
@@ -94,28 +81,7 @@
 ;;  Returns:  Selected folder filepath, else nil              ;;
 ;;------------------------------------------------------------;;
 
-(defun LM:DirectoryDialog ( msg dir flag / Shell Fold Self Path )
-  (vl-catch-all-apply
-    (function
-      (lambda ( / ac HWND )
-        (if
-          (setq Shell (vla-getInterfaceObject (setq ac (vlax-get-acad-object)) "Shell.Application")
-                HWND  (vl-catch-all-apply 'vla-get-HWND (list ac))
-                Fold  (vlax-invoke-method Shell 'BrowseForFolder (if (vl-catch-all-error-p HWND) 0 HWND) msg flag dir)
-          )
-          (setq Self (vlax-get-property Fold 'Self)
-                Path (vlax-get-property Self 'Path)
-                Path (vl-string-right-trim "\\" (vl-string-translate "/" "\\" Path))
-          )
-        )
-      )
-    )
-  )
-  (if Self  (vlax-release-object  Self))
-  (if Fold  (vlax-release-object  Fold))
-  (if Shell (vlax-release-object Shell))
-  Path
-)
+
 
 
 ;| Symbol 	 Type    	Description

@@ -7,7 +7,7 @@ ACADE_TOOL : dialog
       label = "Select Folder";
     
     : edit_box { 
-      key = "path_editBox"; 
+      key = "path_EditBox"; 
       label = "Path: ";
      }
     
@@ -15,14 +15,14 @@ ACADE_TOOL : dialog
             :button
             {
                 	label = "Browse";
-                	key = "browse_button";
+                	key = "browse_Button";
                 	width = 10;
                 	fixed_width = true;
             }
             :button
             {
                 	label = "Enter";
-                	key = "path_enter_button";
+                	key = "path_enter_Button";
                 	width = 10;
                 	fixed_width = true;
             }
@@ -35,16 +35,24 @@ ACADE_TOOL : dialog
         {
             label = "Pick Function";
             : popup_list { 
-                key = "tool_popupList";
+                key = "tool_PopUpList";
              }
+             : button
+            {
+                	label = "Run";
+                	key = "run_function_Button";
+                	width = 10;
+                	fixed_width = true;
+            }
         }
+        
         : boxed_column
         {
             label = "Add Function";
             : button
             {
                 	label = "Add Function";
-                	key = "add_function_button";
+                	key = "add_function_Button";
                 	width = 10;
                 	fixed_width = true;
             }
@@ -69,12 +77,43 @@ ACADE_TOOL : dialog
         }
         : button
         {
-            	label = "OK";
-            	is_default = true;
-            	key = "OK";
+            	label = "Settings";
+            	
+            	key = "open_settings_Button";
             	width = 10;
             	fixed_width = true;
         }
     }
     : errtile {  }
+}
+
+settings_Dialog : dialog
+{
+  label = "AIT ACADE TOOL";
+  :row{
+    : boxed_column {
+      : toggle { 
+        label = "Show Start Window";
+        key = "settings_show_start_Toggle";
+       }
+    }
+  }
+  :row{
+    : button
+        {
+            	label = "Save";
+            	key = "settings_save_Button";
+            	width = 10;
+            	fixed_width = true;
+        }
+    : button
+        {
+            	label = "Exit";
+            	is_cancel = true;
+            	key = "settings_exit_Button";
+            	width = 10;
+            	fixed_width = true;
+        }
+  }
+
 }
