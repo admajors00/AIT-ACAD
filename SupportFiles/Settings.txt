@@ -4,9 +4,7 @@
 path
 >
 <
-bob
-drew
-nate
+C:\Users\and08jors\Documents\AUTOCADe\lisp\AIT ACAD
 >
 >
 <

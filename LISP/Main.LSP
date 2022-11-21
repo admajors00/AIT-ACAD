@@ -1,13 +1,13 @@
 (vl-load-com)
-;(if (/= ifdef_gui_callbacks nil) 
+(if (/= ifdef_gui_callbacks nil) 
   (load "GUI-CALLBACKS.lsp")
-;)
-;(if (/= ifdef_settings_functions nil) 
+)
+(if (/= ifdef_settings_functions nil) 
   (load "SettingsFunctions.lsp")
-;)
+)
 
 
-
+ 
 (defun C:AITTool (/ dcl_id number what_next cnt P1 P2 P3 project_folder_path 
                   tools_folder_path tools_file_names DirectoryDialog_result 
                   settings_path settings support_folder_path

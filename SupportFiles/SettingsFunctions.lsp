@@ -1,7 +1,7 @@
 (setq ifdef_settings_functions t)
 
 
-
+(setq path "a path")
 
 (defun SETTINGS:read_settings (folder_path / setting_fd line settings temp_list) 
   (setq settings_fd (open (strcat folder_path "\\Settings.txt") "r"))
@@ -47,7 +47,6 @@
 
   (print settings)
   (foreach n settings 
-    
     (print n)
   )
   ;| (setq settings_fd (open (strcat folder_path "\\Settings.txt") "w"))
