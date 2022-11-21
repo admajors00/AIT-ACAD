@@ -1,10 +1,11 @@
 (vl-load-com)
-(if (/= ifdef_gui_callbacks nil) 
-  (load "GUI-CALLBACKS.lsp")
-)
-(if (/= ifdef_settings_functions nil) 
-  (load "SettingsFunctions.lsp")
-)
+
+;(if (/= ifdef_gui_callbacks nil)
+(load "GUI-CALLBACKS.lsp")
+;)
+;(if (/= ifdef_settings_functions nil)
+(load "SettingsFunctions.lsp")
+;)
 
 
  
@@ -14,18 +15,23 @@
                  ) 
 
   (setq dcl_id (load_dialog "AITWindow.dcl")) ; Load the DCL file.
-  (setq number 1)
+
+
   (setq what_next 2)
-  (setq cnt 1)
   (while (>= what_next 2) 
 
     (if (not (new_dialog "ACADE_TOOL" dcl_id))  ; Initialize the dialog.
       (exit) ; Exit if this does not work.
-    )   
-    
+    )
+    (if (setq settings (nth 0 (SETTINGS:read_settings))) 
+      (progn 
+        (set_tile "path_EditBox" (nth 0 (cdr (assoc "path" settings))))
+      )
+      (alert "settings file not found")
+    )
     (action_tile "run_function_Button" "(AIT:run_Button_cb)")
     (action_tile "open_settings_Button" "(SETTINGS:dialog settings)")
-    (action_tile "browse_Button" "(AIT:browse_Button_cb)" )
+    (action_tile "browse_Button" "(AIT:browse_Button_cb)")
     (action_tile "path_enter_Button" "(AIT:path_enter_Button_cb)")
 
     (setq what_next (start_dialog))

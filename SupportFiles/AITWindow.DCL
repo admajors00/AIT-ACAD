@@ -117,3 +117,34 @@ settings_Dialog : dialog
   }
 
 }
+
+start_window_Dialog : dialog
+{
+  label = "AIT ACADE TOOL";
+  :row{
+    : boxed_column {
+      : toggle { 
+        label = "Show Start Window";
+        key = "settings_show_start_Toggle";
+       }
+    }
+  }
+  :row{
+    : button
+        {
+            	label = "Save";
+            	key = "settings_save_Button";
+            	width = 10;
+            	fixed_width = true;
+        }
+    : button
+        {
+            	label = "Exit";
+            	is_cancel = true;
+            	key = "settings_exit_Button";
+            	width = 10;
+            	fixed_width = true;
+        }
+  }
+
+}

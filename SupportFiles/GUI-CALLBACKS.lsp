@@ -35,7 +35,7 @@
 )
 
 
-(defun AIT:set_tool_folder_path_cb (/ project_folders settings tools_folder_path) 
+(defun AIT:set_tool_folder_path_cb (/ project_folders tools_folder_path) 
   (setq project_folder_path (get_tile "path_EditBox"))
   (setq project_folders (vl-directory-files project_folder_path nil -1))
   (if 
@@ -50,13 +50,13 @@
       (mapcar 'add_list tools_file_names)
       (end_list)
 
-      (setq settings (SETTINGS:read_settings support_folder_path))
+      (setq settings (SETTINGS:write_settings settings  (append (list "path") (list project_folder_path))))
     )
     (progn 
       (set_tile "error" "Invalid Path")
     )
   )
-  (append settings (list tools_folder_path) (list support_folder_path) (list tools_file_names))
+  (append (list settings) (list tools_folder_path) (list support_folder_path) (list tools_file_names))
 )
 
 (defun AIT:path_enter_Button_cb () 

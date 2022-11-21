@@ -1,20 +1,12 @@
 <
 <
-<
 path
->
-<
 C:\Users\and08jors\Documents\AUTOCADe\lisp\AIT ACAD
 >
->
-<
 <
 welcome_menu_on_start
->
-<
 MON 
 TUE
 WED
->
 >
 >
