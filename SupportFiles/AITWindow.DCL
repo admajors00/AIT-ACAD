@@ -120,7 +120,8 @@ settings_Dialog : dialog
 
 start_window_Dialog : dialog
 {
-  label = "AIT ACADE TOOL";
+  label = "Welcome
+  ";
   :row{
     : boxed_column {
       : toggle { 
