@@ -1,3 +1,4 @@
+
 (vl-load-com)
 
 ;(if (/= ifdef_gui_callbacks nil)
@@ -30,7 +31,7 @@
       (alert "settings file not found")
     )
     (action_tile "run_function_Button" "(AIT:run_Button_cb)")
-    (action_tile "open_settings_Button" "(SETTINGS:dialog settings)")
+    (action_tile "open_settings_Button" "(SETTINGS:dialog)")
     (action_tile "browse_Button" "(AIT:browse_Button_cb)")
     (action_tile "path_enter_Button" "(AIT:path_enter_Button_cb)")
 
@@ -54,7 +55,7 @@
        (c:Troy) ; pick pt.
       )
       ((= what_next 8) ; Prompt user to
-       (SETTINGS:dialog settings)
+       (SETTINGS:dialog)
       )
 
       ((= what_next 0)
@@ -67,6 +68,15 @@
 
   (princ)
 )
+
+(defun *error* (errmsg)
+  (print "you broke it")
+  (unload_dialog dcl_id)
+)
+
+;| (defun c:Tool ()
+
+) |;
 
 
 

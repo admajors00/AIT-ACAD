@@ -3,7 +3,7 @@
 
 
 
-(defun SETTINGS:read_settings (/ settings_fd line settings temp_list) 
+(defun SETTINGS:read_settings (/) 
   (if (setq settings_fd (open (findfile "Settings.txt") "r")) 
     (progn 
       (setq settings (SETTINGS:parse_settings_file settings_fd))
@@ -17,8 +17,7 @@
   )
 )
 
-(defun SETTINGS:parse_settings_file (settings_fd / settings temp_list line is_done 
-                                     returned
+(defun SETTINGS:parse_settings_file (settings_fd / temp_settings temp_list line is_done 
                                     ) 
   (setq is_done t)
   (setq returned t)
@@ -26,7 +25,7 @@
     (if line 
       (if (= line "<")  ;if line is start of a group then add all items to list
         (progn 
-          (setq settings (append settings 
+          (setq temp_settings (append temp_settings 
                                  (list (SETTINGS:parse_settings_file settings_fd))
                          )
           )
@@ -39,7 +38,7 @@
           )
           (if temp_list 
             (progn 
-              (setq settings temp_list)
+              (setq temp_settings temp_list)
               (setq temp_list nil)
             )
           )
@@ -50,10 +49,10 @@
     ;(setq line (read-line settings_fd)) ;read a line
   )
 
-  settings
+  temp_settings
 )
 
-(defun SETTINGS:write_settings (settings new_setting /) 
+(defun SETTINGS:write_settings ( new_setting /) 
   (if (assoc (car new_setting) settings)  ;check if this setting exists already
     (progn 
       (if (member new_setting settings)  ;make sure were not setting it to the same value again
@@ -68,7 +67,7 @@
   )
 )
 
-(defun SETTINGS:save_settings (settings / setting_fd line settings) 
+(defun SETTINGS:save_settings ( / setting_fd line settings) 
   (if (setq settings_fd (open (findfile "Settings.txt") "w")) 
     (progn 
 
@@ -80,9 +79,9 @@
   )
 )
 
-(defun SETTINGS:recursive_save_settings (settings settings_fd) 
+(defun SETTINGS:recursive_save_settings (temp_settings settings_fd) 
   (write-line "<" settings_fd)
-  (foreach element settings 
+  (foreach element temp_settings 
     (if (listp element) 
       (SETTINGS:recursive_save_settings element settings_fd)
       (write-line element settings_fd)
@@ -92,12 +91,12 @@
 )
 
 
-(defun SETTINGS:dialog (settings / dcl_id1) 
+(defun SETTINGS:dialog ( / dcl_id1) 
   (setq dcl_id1 (load_dialog "AITWindow.dcl"))
   (if (not (new_dialog "settings_Dialog" dcl_id1))  ; Initialize the dialog.
     (exit) ; Exit if this does not work.
   )
-  (action_tile "settings_save_Button" "(SETTINGS:save_settings settings)")
+  (action_tile "settings_save_Button" "(SETTINGS:save_settings)")
   (start_dialog)
   (unload_dialog dcl_id1)
   (princ)
